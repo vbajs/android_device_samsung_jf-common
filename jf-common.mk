@@ -192,6 +192,10 @@ PRODUCT_PACKAGES += \
     init.qcom.usb.rc \
     init.target.rc \
     ueventd.qcom.rc
+    
+# STweaks
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/STweaks/STweaks.apk:system/priv-app/STweaks/STweaks.apk
 
 # Thermal
 PRODUCT_COPY_FILES += \
