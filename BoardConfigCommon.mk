@@ -155,6 +155,7 @@ BOARD_SEPOLICY_UNION += \
     property_contexts \
     property.te \
     rild.te \
+    service_contexts \
     system_app.te \
     system_server.te \
     tee.te \
