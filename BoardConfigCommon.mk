@@ -123,6 +123,9 @@ BOARD_HAS_NO_SELECT_BUTTON := true
 BOARD_RECOVERY_SWIPE := true
 TARGET_RECOVERY_FSTAB := device/samsung/jf-common/rootdir/etc/fstab.qcom
 
+# Releasetools
+TARGET_RELEASETOOLS_EXTENSIONS := device/samsung/jf-common/releasetools
+
 # RIL
 BOARD_RIL_CLASS := ../../../device/samsung/jf-common/ril
 
@@ -160,6 +163,11 @@ BOARD_SEPOLICY_UNION += \
     vibe_dev.te \
     vold.te \
     wpa.te
+    
+# Vendor Init
+TARGET_UNIFIED_DEVICE := true
+TARGET_INIT_VENDOR_LIB := libinit_jflte
+TARGET_LIBINIT_DEFINES_FILE := device/samsung/jf-common/init/init_jflte.c
 
 # Vold
 BOARD_VOLD_EMMC_SHARES_DEV_MAJOR := true
