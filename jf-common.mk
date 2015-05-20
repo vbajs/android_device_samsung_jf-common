@@ -199,7 +199,7 @@ PRODUCT_PACKAGES += \
     
 # STweaks
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/STweaks/STweaks.apk:system/priv-app/STweaks/STweaks.apk
+    $(LOCAL_PATH)/stweaks/stweaks.apk:system/priv-app/stweaks/stweaks.apk
 
 # Thermal
 PRODUCT_COPY_FILES += \
