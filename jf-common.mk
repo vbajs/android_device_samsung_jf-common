@@ -82,10 +82,6 @@ PRODUCT_PACKAGES += \
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/audio/audio_policy.conf:system/etc/audio_policy.conf \
     $(LOCAL_PATH)/audio/snd_soc_msm_2x_Fusion3:system/etc/snd_soc_msm/snd_soc_msm_2x_Fusion3
-    
-# AntaresOne OTA Center
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/ota/ota.apk:system/priv-app/OTACenter/OTACenter.apk
 
 # Bluetooth
 PRODUCT_COPY_FILES += \
