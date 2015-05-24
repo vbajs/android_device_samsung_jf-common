@@ -193,10 +193,6 @@ PRODUCT_PACKAGES += \
     init.target.rc \
     ueventd.qcom.rc
     
-# STweaks
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/stweaks/stweaks.apk:system/priv-app/stweaks/stweaks.apk
-
 # Thermal
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/thermal-engine.conf:system/etc/thermal-engine.conf \

@@ -166,6 +166,9 @@ BOARD_SEPOLICY_UNION += \
     vold.te \
     wpa.te
     
+# STweaks
+TARGET_SHIP_STWEAKS := true
+
 # Vendor Init
 TARGET_UNIFIED_DEVICE := true
 TARGET_INIT_VENDOR_LIB := libinit_jflte
