@@ -16,5 +16,6 @@
 
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Enable call recording for this device -->
-    <bool name="call_recording_enabled">false</bool>
+    <bool name="call_recording_enabled">true</bool>
+    <integer name="call_recording_audio_source">4</integer>
 </resources>
