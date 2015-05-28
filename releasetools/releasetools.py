@@ -25,7 +25,7 @@
 def FullOTA_InstallEnd(info):
   info.script.script = [cmd for cmd in info.script.script if not "boot.img" in cmd]
   info.script.script = [cmd for cmd in info.script.script if not "show_progress(0.100000, 0);" in cmd]
-  info.script.AppendExtra('ifelse(getprop("ro.product.device") == "jfltevzw" || getprop("ro.build.product") == "jfltevzw", (package_extract_file("alu_jf_vzw/boot.img", "/tmp/boot.img");package_extract_dir("alu_jf_vzw/system/lib", "/system/lib");),(package_extract_file("alu_jf_eur/boot.img", "/tmp/boot.img");package_extract_dir("alu_jf_eur/system/lib", "/system/lib")));')
+  info.script.AppendExtra('ifelse(getprop("ro.product.device") == "jfltevzw" || getprop("ro.build.product") == "jfltevzw", (package_extract_file("boot-vzw.img", "/tmp/boot.img");),(package_extract_file("boot.img", "/tmp/boot.img");));')
   info.script.AppendExtra('assert(run_program("/sbin/sh", "/system/etc/loki.sh") == 0);')
   info.script.AppendExtra('ifelse(is_substring("I337", getprop("ro.bootloader")), run_program("/sbin/sh", "-c", "busybox cp -R /system/blobs/gsm/* /system/"));')
   info.script.AppendExtra('ifelse(is_substring("I337", getprop("ro.bootloader")), run_program("/sbin/sh", "-c", "busybox sed -i \'/rild.libpath/ r system/blobs/gsm/gsm.txt\' /system/build.prop"));')
