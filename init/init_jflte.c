@@ -139,8 +139,8 @@ void vendor_load_properties()
     } else if (strstr(bootloader, "I9505")) {
         /* jfltexx */
         gsm_properties();
-        property_set("ro.build.fingerprint", "samsung/jfltexx/jflte:4.2.2/JDQ39/I9505XXUAMDE:user/release-keys");
-        property_set("ro.build.description", "jfltexx-user 4.2.2 JDQ39 I9505XXUAMDE release-keys");
+        property_set("ro.build.fingerprint", "samsung/jfltexx/jflte:5.0.1/LRX22C/I9505XXUHOB7:user/release-keys");
+        property_set("ro.build.description", "jfltexx-user 5.0.1 LRX22C I9505XXUHOB7 release-keys");
         property_set("ro.product.model", "GT-I9505");
         property_set("ro.product.device", "jfltexx");
     } else if (strstr(bootloader, "I9507")) {
