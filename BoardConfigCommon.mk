@@ -166,9 +166,6 @@ BOARD_SEPOLICY_UNION += \
     vibe_dev.te \
     vold.te \
     wpa.te
-    
-# STweaks
-TARGET_SHIP_STWEAKS := true
 
 # Vendor Init
 TARGET_UNIFIED_DEVICE := true
