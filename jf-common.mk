@@ -249,6 +249,16 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.opengles.version=196608 \
     ro.sf.lcd_density=480
 
+# hardware
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.device.soc.manufacturer=Qualcomm \
+    ro.device.soc.model=Snapdragon 600 APQ8064T \
+    ro.device.cpu.count=4 \
+    ro.device.cpu.frequency=1890 MHz \
+    ro.device.gpu.model=Adreno 320 \
+    ro.device.gpu.frequency=450 MHz \
+    ro.device.show_ram_info=true \
+
 # media
 PRODUCT_PROPERTY_OVERRIDES += \
     qcom.hw.aac.encoder=true
