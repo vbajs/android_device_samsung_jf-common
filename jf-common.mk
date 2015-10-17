@@ -114,7 +114,7 @@ PRODUCT_PACKAGES += \
     memtrack.msm8960
 
 # Doze
-PRODUCT_PACKAGES += \
+#PRODUCT_PACKAGES += \
     SamsungDoze
 
 # GPS
