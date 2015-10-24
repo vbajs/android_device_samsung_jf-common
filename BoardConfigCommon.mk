@@ -133,8 +133,8 @@ TARGET_RELEASETOOLS_EXTENSIONS := device/samsung/jf-common/releasetools
 BOARD_RIL_CLASS := ../../../device/samsung/jf-common/ril
 
 # SELinux
-#include device/qcom/sepolicy/sepolicy.mk
-#BOARD_SEPOLICY_DIRS += device/samsung/jf-common/sepolicy
+include device/qcom/sepolicy/sepolicy.mk
+BOARD_SEPOLICY_DIRS += device/samsung/jf-common/sepolicy
 
 # Vendor Init
 TARGET_UNIFIED_DEVICE := true
