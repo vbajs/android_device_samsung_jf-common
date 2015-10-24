@@ -223,6 +223,7 @@ MR_DEVICE_HOOKS := device/samsung/jf-common/multirom/mr_hooks.c
 MR_DEVICE_HOOKS_VER := 1
 MR_FSTAB := device/samsung/jf-common/twrp/twrp.fstab
 MR_KEXEC_MEM_MIN := 0x85000000
+MR_INFOS := device/samsung/jf-common/multirom/infos
 MR_INIT_DEVICES := device/samsung/jf-common/multirom/mr_init_devices.c
 MR_INPUT_TYPE := type_b
 MR_USE_MROM_FSTAB := true
