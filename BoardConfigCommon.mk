@@ -129,7 +129,7 @@ BOARD_RECOVERY_SWIPE := true
 TARGET_RECOVERY_FSTAB := device/samsung/jf-common/rootdir/etc/fstab.qcom
 
 # Releasetools
-TARGET_RELEASETOOLS_EXTENSIONS := device/samsung/jf-common/releasetools
+TARGET_RELEASETOOLS_EXTENSIONS := device/samsung/jf-common
 
 # RIL
 BOARD_RIL_CLASS := ../../../device/samsung/jf-common/ril
@@ -170,6 +170,29 @@ BOARD_SEPOLICY_UNION += \
     vold.te \
     wpa.te
 
+# TWRP
+BOARD_HAS_NO_REAL_SDCARD := true
+DEVICE_RESOLUTION := 1080x1920
+RECOVERY_GRAPHICS_USE_LINELENGTH := true
+RECOVERY_SDCARD_ON_DATA := true
+TARGET_RECOVERY_FSTAB := device/samsung/jf-common/multirom/multirom.fstab
+TARGET_USE_CUSTOM_LUN_FILE_PATH := /sys/devices/platform/msm_hsusb/gadget/lun0/file
+TW_BRIGHTNESS_PATH := /sys/devices/platform/msm_fb.526593/leds/lcd-backlight/brightness
+TW_CRYPTO_FS_FLAGS := "0x00000406"
+TW_CRYPTO_FS_OPTIONS := "nosuid,nodev,noatime,noauto_da_alloc,journal_async_commit,errors=panic,wait,check,encryptable=footer"
+TW_CRYPTO_FS_TYPE := "ext4"
+TW_CRYPTO_KEY_LOC := "footer"
+TW_CRYPTO_MNT_POINT := "/data"
+TW_CRYPTO_REAL_BLKDEV := "/dev/block/mmcblk0p29"
+TW_EXTERNAL_STORAGE_MOUNT_POINT := "external_sd"
+TW_EXTERNAL_STORAGE_PATH := "/external_sd"
+TW_HAS_DOWNLOAD_MODE := true
+TW_INCLUDE_CRYPTO := true
+TW_INCLUDE_CRYPTO_SAMSUNG := true
+TW_INTERNAL_STORAGE_PATH := "/data/media/0"
+TW_INTERNAL_STORAGE_MOUNT_POINT := "data"
+TW_NO_REBOOT_BOOTLOADER := true
+
 # Vendor Init
 TARGET_UNIFIED_DEVICE := true
 TARGET_INIT_VENDOR_LIB := libinit_jflte
@@ -192,3 +215,15 @@ WIFI_BAND := 802_11_ABG
 WIFI_DRIVER_FW_PATH_AP := "/system/etc/wifi/bcmdhd_apsta.bin"
 WIFI_DRIVER_FW_PATH_PARAM := "/sys/module/dhd/parameters/firmware_path"
 WIFI_DRIVER_FW_PATH_STA := "/system/etc/wifi/bcmdhd_sta.bin"
+
+# MultiROM config. MultiROM also uses parts of TWRP config
+MR_DPI := xhdpi
+MR_DPI_FONT := 340
+MR_DEVICE_HOOKS := device/samsung/jf-common/multirom/mr_hooks.c
+MR_DEVICE_HOOKS_VER := 1
+MR_FSTAB := device/samsung/jf-common/multirom/multirom.fstab
+MR_KEXEC_MEM_MIN := 0x85000000
+MR_INIT_DEVICES := device/samsung/jf-common/multirom/mr_init_devices.c
+MR_INPUT_TYPE := type_b
+MR_USE_MROM_FSTAB := true
+

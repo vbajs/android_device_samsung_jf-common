@@ -147,13 +147,6 @@ PRODUCT_COPY_FILES += \
 # Lights
 PRODUCT_PACKAGES += \
     lights.msm8960
-    
-# Loki
-PRODUCT_PACKAGES += \
-    loki_tool \
-    loki.sh \
-    loki_bootloaders \
-    recovery-transform.sh
 
 # Media
 PRODUCT_COPY_FILES += \
@@ -248,16 +241,6 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.hwui.text_cache_width=2048 \
     ro.opengles.version=196608 \
     ro.sf.lcd_density=480
-
-# hardware
-PRODUCT_PROPERTY_OVERRIDES += \
-    ro.device.soc.manufacturer=Qualcomm \
-    ro.device.soc.model=Snapdragon 600 APQ8064T \
-    ro.device.cpu.count=4 \
-    ro.device.cpu.realtime_freq.all=true \
-    ro.device.gpu.model=Adreno 320 \
-    ro.device.gpu.realtime_freq=true \
-    ro.device.show_ram_info=true \
 
 # media
 PRODUCT_PROPERTY_OVERRIDES += \
