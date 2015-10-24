@@ -179,6 +179,7 @@ TW_CRYPTO_FS_TYPE := "ext4"
 TW_CRYPTO_KEY_LOC := "footer"
 TW_CRYPTO_MNT_POINT := "/data"
 TW_CRYPTO_REAL_BLKDEV := "/dev/block/mmcblk0p29"
+TW_EXCLUDE_SUPERSU := true
 TW_EXTERNAL_STORAGE_MOUNT_POINT := "external_sd"
 TW_EXTERNAL_STORAGE_PATH := "/external_sd"
 TW_HAS_DOWNLOAD_MODE := true
