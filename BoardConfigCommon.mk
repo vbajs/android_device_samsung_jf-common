@@ -166,7 +166,7 @@ BOARD_SEPOLICY_UNION += \
     vold.te \
     wpa.te
 
-# TWRP
+# TWRP (enable crypto in case of non-MultiROM TWRP)
 BOARD_HAS_NO_REAL_SDCARD := true
 RECOVERY_GRAPHICS_USE_LINELENGTH := true
 RECOVERY_SDCARD_ON_DATA := true
@@ -175,18 +175,18 @@ TARGET_USE_CUSTOM_LUN_FILE_PATH := /sys/devices/platform/msm_hsusb/gadget/lun0/f
 TW_BRIGHTNESS_PATH := /sys/devices/platform/msm_fb.526593/leds/lcd-backlight/brightness
 TW_SECONDARY_BRIGHTNESS_PATH := /sys/devices/platform/i2c-gpio.21/i2c-21/21-0030/leds/led_b/brightness
 TW_MAX_BRIGHTNESS := 255
-TW_CRYPTO_FS_FLAGS := "0x00000406"
-TW_CRYPTO_FS_OPTIONS := "nosuid,nodev,noatime,noauto_da_alloc,journal_async_commit,errors=panic,wait,check,encryptable=footer"
-TW_CRYPTO_FS_TYPE := "ext4"
-TW_CRYPTO_KEY_LOC := "footer"
-TW_CRYPTO_MNT_POINT := "/data"
-TW_CRYPTO_REAL_BLKDEV := "/dev/block/mmcblk0p29"
+#TW_CRYPTO_FS_FLAGS := "0x00000406"
+#TW_CRYPTO_FS_OPTIONS := "nosuid,nodev,noatime,noauto_da_alloc,journal_async_commit,errors=panic,wait,check,encryptable=footer"
+#TW_CRYPTO_FS_TYPE := "ext4"
+#TW_CRYPTO_KEY_LOC := "footer"
+#TW_CRYPTO_MNT_POINT := "/data"
+#TW_CRYPTO_REAL_BLKDEV := "/dev/block/mmcblk0p29"
 TW_EXCLUDE_SUPERSU := true
 TW_EXTERNAL_STORAGE_MOUNT_POINT := "external_sd"
 TW_EXTERNAL_STORAGE_PATH := "/external_sd"
 TW_HAS_DOWNLOAD_MODE := true
-TW_INCLUDE_CRYPTO := true
-TW_INCLUDE_CRYPTO_SAMSUNG := true
+#TW_INCLUDE_CRYPTO := true
+#TW_INCLUDE_CRYPTO_SAMSUNG := true
 TW_INCLUDE_NTFS_3G := false
 TW_INTERNAL_STORAGE_PATH := "/data/media/0"
 TW_INTERNAL_STORAGE_MOUNT_POINT := "data"
