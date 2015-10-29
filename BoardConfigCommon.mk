@@ -194,7 +194,6 @@ TW_MR_EXCLUDE_PHABLET := true
 TW_NO_REBOOT_BOOTLOADER := true
 TW_NO_SCREEN_TIMEOUT := true
 TW_THEME := portrait_hdpi
-TW_THEME_LANDSCAPE := landscape_hdpi
 
 # Vendor Init
 TARGET_UNIFIED_DEVICE := true
