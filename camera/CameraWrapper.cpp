@@ -148,10 +148,8 @@ static char *camera_fixup_setparams(struct camera_device *device, const char *se
 #endif
 
     // jactive device camera doesn't seem to have recording hint param, so read it safely
-    const char* recordingHint = params.get(android::CameraParameters::KEY_RECORDING_HINT);
-    bool isVideo = false;
-    if (recordingHint)
-        isVideo = !strcmp(recordingHint, "true");
+    const char *recordingHint = params.get(android::CameraParameters::KEY_RECORDING_HINT);
+    bool isVideo = recordingHint && !strcmp(recordingHint, "true");
 
     // fix params here
     // No need to fix-up ISO_HJR, it is the same for userspace and the camera lib
@@ -169,14 +167,12 @@ static char *camera_fixup_setparams(struct camera_device *device, const char *se
             params.set(android::CameraParameters::KEY_ISO_MODE, "1600");
     }
 
-    const char *recordingHint = params.get(android::CameraParameters::KEY_RECORDING_HINT);
-    bool isVideo = recordingHint && !strcmp(recordingHint, "true");
-
     if (isVideo) {
-        params.set(android::CameraParameters::KEY_DIS, android::CameraParameters::DIS_DISABLE);
-        params.set(android::CameraParameters::KEY_ZSL, android::CameraParameters::ZSL_OFF);
+        params.set(android::CameraParameters::KEY_ZSL, off);
+        params.set(android::CameraParameters::KEY_CAMERA_MODE, 0)
     } else {
-        params.set(android::CameraParameters::KEY_ZSL, android::CameraParameters::ZSL_ON);
+        params.set(android::CameraParameters::KEY_ZSL, on);
+        params.set(android::CameraParameters::KEY_CAMERA_MODE, 1)
     }
 
     android::String8 strParams = params.flatten();
