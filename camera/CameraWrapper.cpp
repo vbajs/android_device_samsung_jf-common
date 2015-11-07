@@ -1,6 +1,5 @@
 /*
- * Copyright (C) 2012, The CyanogenMod Project
- * Copyright (C) 2015, JDCTeam
+ * Copyright (C) 2014, The CyanogenMod Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +21,7 @@
 *
 */
 
-#define LOG_NDEBUG 0
+//#define LOG_NDEBUG 0
 
 #define LOG_TAG "CameraWrapper"
 #include <cutils/log.h>
@@ -44,8 +43,6 @@ static int camera_device_open(const hw_module_t *module, const char *name,
 static int camera_device_close(hw_device_t *device);
 static int camera_get_number_of_cameras(void);
 static int camera_get_camera_info(int camera_id, struct camera_info *info);
-static int camera_send_command(struct camera_device * device, int32_t cmd,
-                int32_t arg1, int32_t arg2);
 
 static struct hw_module_methods_t camera_module_methods = {
     .open = camera_device_open
@@ -57,7 +54,7 @@ camera_module_t HAL_MODULE_INFO_SYM = {
          .module_api_version = CAMERA_MODULE_API_VERSION_1_0,
          .hal_api_version = HARDWARE_HAL_API_VERSION,
          .id = CAMERA_HARDWARE_MODULE_ID,
-         .name = "Samsung JF Camera Wrapper",
+         .name = "MSM8974 Camera Wrapper",
          .author = "The CyanogenMod Project",
          .methods = &camera_module_methods,
          .dso = NULL, /* remove compilation warnings */
@@ -68,8 +65,8 @@ camera_module_t HAL_MODULE_INFO_SYM = {
     .set_callbacks = NULL, /* remove compilation warnings */
     .get_vendor_tag_ops = NULL, /* remove compilation warnings */
     .open_legacy = NULL, /* remove compilation warnings */
-    .set_torch_mode = NULL, /* remove compilation warnings */
-    .init = NULL, /* remove compilation warnings */
+    .set_torch_mode = NULL,
+    .init = NULL,
     .reserved = {0}, /* remove compilation warnings */
 };
 
@@ -102,7 +99,18 @@ static int check_vendor_module()
     return rv;
 }
 
-const static char *iso_values[] = {"auto,ISO_HJR,ISO100,ISO200,ISO400,ISO800,ISO1600,auto"};
+#define KEY_VIDEO_HFR_VALUES "video-hfr-values"
+
+// nv12-venus is needed for blobs, but
+// framework has no idea what it is
+#define PIXEL_FORMAT_NV12_VENUS "nv12-venus"
+
+static bool is_4k_video(android::CameraParameters &params) {
+    int video_width, video_height;
+    params.getVideoSize(&video_width, &video_height);
+    ALOGV("%s : VideoSize is %x", __FUNCTION__, video_width * video_height);
+    return video_width * video_height == 3840 * 2160;
+}
 
 static char *camera_fixup_getparams(int __attribute__((unused)) id,
     const char *settings)
@@ -115,12 +123,28 @@ static char *camera_fixup_getparams(int __attribute__((unused)) id,
     params.dump();
 #endif
 
-    // fix params here
-    params.set(android::CameraParameters::KEY_SUPPORTED_ISO_MODES, iso_values[id]);
+    //Hide nv12-venus from Android.
+    if (strcmp (params.getPreviewFormat(), PIXEL_FORMAT_NV12_VENUS) == 0)
+          params.setPreviewFormat(params.PIXEL_FORMAT_YUV420SP);
 
-    /* Remove HDR on rear cam */
-    if (id != 1) {
-        params.set(android::CameraParameters::KEY_SUPPORTED_SCENE_MODES, "auto,action,night,sunset,party");
+    const char *videoSizeValues = params.get(
+            android::CameraParameters::KEY_SUPPORTED_VIDEO_SIZES);
+    if (videoSizeValues) {
+        char videoSizes[strlen(videoSizeValues) + 10 + 1];
+        sprintf(videoSizes, "3840x2160,%s", videoSizeValues);
+        params.set(android::CameraParameters::KEY_SUPPORTED_VIDEO_SIZES,
+                videoSizes);
+    }
+
+    /* If the vendor has HFR values but doesn't also expose that
+     * this can be turned off, fixup the params to tell the Camera
+     * that it really is okay to turn it off.
+     */
+    const char *hfrModeValues = params.get(KEY_VIDEO_HFR_VALUES);
+    if (hfrModeValues && !strstr(hfrModeValues, "off")) {
+        char hfrModes[strlen(hfrModeValues) + 4 + 1];
+        sprintf(hfrModes, "%s,off", hfrModeValues);
+        params.set(KEY_VIDEO_HFR_VALUES, hfrModes);
     }
 
     /* Enforce video-snapshot-supported to true */
@@ -137,7 +161,7 @@ static char *camera_fixup_getparams(int __attribute__((unused)) id,
     return ret;
 }
 
-static char *camera_fixup_setparams(struct camera_device *device, const char *settings)
+static char *camera_fixup_setparams(int id, const char *settings)
 {
     android::CameraParameters params;
     params.unflatten(android::String8(settings));
@@ -147,32 +171,14 @@ static char *camera_fixup_setparams(struct camera_device *device, const char *se
     params.dump();
 #endif
 
-    // jactive device camera doesn't seem to have recording hint param, so read it safely
     const char *recordingHint = params.get(android::CameraParameters::KEY_RECORDING_HINT);
     bool isVideo = recordingHint && !strcmp(recordingHint, "true");
 
-    // fix params here
-    // No need to fix-up ISO_HJR, it is the same for userspace and the camera lib
-    if(params.get("iso")) {
-        const char* isoMode = params.get(android::CameraParameters::KEY_ISO_MODE);
-        if(strcmp(isoMode, "ISO100") == 0)
-            params.set(android::CameraParameters::KEY_ISO_MODE, "100");
-        else if(strcmp(isoMode, "ISO200") == 0)
-            params.set(android::CameraParameters::KEY_ISO_MODE, "200");
-        else if(strcmp(isoMode, "ISO400") == 0)
-            params.set(android::CameraParameters::KEY_ISO_MODE, "400");
-        else if(strcmp(isoMode, "ISO800") == 0)
-            params.set(android::CameraParameters::KEY_ISO_MODE, "800");
-        else if(strcmp(isoMode, "ISO1600") == 0)
-            params.set(android::CameraParameters::KEY_ISO_MODE, "1600");
-    }
-
     if (isVideo) {
-        params.set(android::CameraParameters::KEY_ZSL, off);
-        params.set(android::CameraParameters::KEY_CAMERA_MODE, 0)
+        params.set(android::CameraParameters::KEY_DIS, android::CameraParameters::DIS_DISABLE);
+        params.set(android::CameraParameters::KEY_ZSL, android::CameraParameters::ZSL_OFF);
     } else {
-        params.set(android::CameraParameters::KEY_ZSL, on);
-        params.set(android::CameraParameters::KEY_CAMERA_MODE, 1)
+        params.set(android::CameraParameters::KEY_ZSL, android::CameraParameters::ZSL_ON);
     }
 
     android::String8 strParams = params.flatten();
@@ -193,7 +199,8 @@ static char *camera_fixup_setparams(struct camera_device *device, const char *se
 /*******************************************************************
  * implementation of camera_device_ops functions
  *******************************************************************/
-
+static char *camera_get_parameters(struct camera_device *device);
+static int camera_set_parameters(struct camera_device *device, const char *params);
 static int camera_set_preview_window(struct camera_device *device,
         struct preview_stream_ops *window)
 {
@@ -310,6 +317,15 @@ static int camera_start_recording(struct camera_device *device)
 
     if (!device)
         return EINVAL;
+
+    android::CameraParameters parameters;
+    parameters.unflatten(android::String8(camera_get_parameters(device)));
+
+    if (is_4k_video(parameters)) {
+        ALOGV("%s : UHD detected, switching preview-format to nv12-venus", __FUNCTION__);
+        parameters.setPreviewFormat(PIXEL_FORMAT_NV12_VENUS);
+        camera_set_parameters(device, strdup(parameters.flatten().string()));
+    }
 
     return VENDOR_CALL(device, start_recording);
 }
