@@ -328,8 +328,5 @@
         <item>gprs:4092,8760,11680,4096,8760,11680</item>
         <item>evdo:4094,87380,262144,4096,16384,262144</item>
     </string-array>
-    
-    <!-- Show device hardware info in About device -->
-    <bool name="config_displayHardwareInfo">true</bool>
 
 </resources>
