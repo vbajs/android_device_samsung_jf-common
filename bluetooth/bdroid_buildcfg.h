@@ -20,7 +20,10 @@
 
 #define BTM_DEF_LOCAL_NAME   "Samsung Galaxy S IV"
 
-#define BTA_SKIP_BLE_READ_REMOTE_FEAT TRUE
-#define BTA_DISABLE_DELAY 1000 /* in milliseconds */
+#define BTA_DISABLE_DELAY 100 /* in milliseconds */
+
+#define SC_MODE_INCLUDED FALSE
+#define HCI_RAW_CMD_INCLUDED FALSE
+#define BTSNOOP_MEM FALSE
 
 #endif
