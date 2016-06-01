@@ -1,0 +1,35 @@
+## No matter of F2FS, partitions are smart-mounted
+# eMMC
+/aboot emmc /dev/block/mmcblk0p6
+/boot emmc /dev/block/mmcblk0p20
+/cache ext4 /dev/block/mmcblk0p18
+/data ext4 /dev/block/mmcblk0p29
+/carrier emmc /dev/block/mmcblk0p28
+/preload ext4 /dev/block/mmcblk0p27 flags=backup=1;display="Preload";wipeingui
+/system ext4 /dev/block/mmcblk0p16
+/firmware vfat /dev/block/mmcblk0p1
+/fota emmc /dev/block/mmcblk0p22
+/modem ext4 /dev/block/mmcblk0p2
+/sec_efs ext4 /dev/block/mmcblk0p10 flags=backup=1;display="Samsung EFS"
+/m9kefs1 emmc /dev/block/mmcblk0p13 flags=backup=1;display="EFS DATA"
+/m9kefs2 emmc /dev/block/mmcblk0p14 flags=backup=1;subpartitionof=/m9kefs1
+/m9kefs3 emmc /dev/block/mmcblk0p15 flags=backup=1;subpartitionof=/m9kefs2
+/nvdata1 emmc /dev/block/mmcblk0p11 flags=backup=1;display="Current NV DATA"
+/nvdata2 emmc /dev/block/mmcblk0p12 flags=backup=1;subpartitionof=/nvdata1
+/nvdata_backup emmc /dev/block/mmcblk0p23 flags=backup=1;display="NV DATA (Internal backup)"
+/nvdata_golden emmc /dev/block/mmcblk0p24 flags=backup=1;display="NV DATA (Golden copy)"
+/pad emmc /dev/block/mmcblk0p9
+/param emmc /dev/block/mmcblk0p19
+/persdata ext4 /dev/block/mmcblk0p26
+/persist emmc /dev/block/mmcblk0p17
+/recovery emmc /dev/block/mmcblk0p21
+/rpm emmc /dev/block/mmcblk0p7
+/sbl1 emmc /dev/block/mmcblk0p3
+/sbl2 emmc /dev/block/mmcblk0p4
+/sbl3 emmc /dev/block/mmcblk0p5
+/ssd emmc /dev/block/mmcblk0p25
+/tz emmc /dev/block/mmcblk0p8
+# External
+/external_sd vfat /dev/block/mmcblk1p1 /dev/block/mmcblk1 flags=display="Micro SDcard";storage;wipeingui;removable
+/usb-otg vfat /dev/block/sda1 /dev/block/sda flags=display="USB-OTG";storage;wipeingui;removable
+
